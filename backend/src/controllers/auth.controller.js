@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs'
 
 import User from '../models/user.model.js'
+import cloudinary from '../lib/cloudinary.js'
 import { generateToken } from '../../utils/generate-token.js'
 import { paramsValidate } from '../../utils/user-validation.js'
 import { createUser, loginUser } from '../services/user.service.js'
@@ -47,6 +48,42 @@ export const logout = (req, res) => {
     return res.status(200).json({ message: 'Logout realizado com sucesso' })
   } catch (error) {
     console.log('Erro no loginout do usuario: ', error.message)
+    res.status(500).json({ message: 'Internal Server Error' })
+  }
+}
+
+export const updateProfile = async (req, res) => {
+  try {
+    const {profilePic} = req.body
+    const userId = req.user._id
+
+    if(!profilePic) res.status(400).json({message: 'Imagem ivalida'})
+
+    const uploadResponse = await cloudinary.uploader.upload(profilePic)
+    const updatedUser = await User.findByIdAndUpdate(userId, {profilePic: uploadResponse.secure_url}, {new:true})
+    res.status(200).json({
+      id: updatedUser._id,
+      fullName: updatedUser.fullName,
+      email: updatedUser.email,
+      profilePic: updatedUser.profilePic
+    })
+  } catch (error) {
+    console.log('Erro na atualização do usuario: ', error.message)
+    res.status(500).json({ message: 'Internal Server Error' })
+  }
+}
+
+export const checkAuth = (req, res) => {
+  try {
+    const user = req.user
+    res.status(200).json({
+      id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      profilePic: user.profilePic
+    })
+  } catch (error) {
+    console.log('Erro ao checar controller de rotas: ', error.message)
     res.status(500).json({ message: 'Internal Server Error' })
   }
 }
