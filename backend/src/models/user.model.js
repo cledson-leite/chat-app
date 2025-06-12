@@ -16,12 +16,10 @@ const userSchema = new mogoose.Schema(
       required: true,
       minLangth: 6,
     },
-    {
-      profilePic: {
-        type: String,
-        default:
-          'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg',
-      },
+    profilePic: {
+      type: String,
+      default:
+        'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg',
     },
   },
   {
