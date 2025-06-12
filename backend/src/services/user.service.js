@@ -21,3 +21,13 @@ export const loginUser = async ({ email, password }) => {
   if (!isValidPassword)  return { message: 'Credenciais invalidas' }
   return {data: user}
 }
+
+export const findUsers = async (loggedInUserId) => {
+  const users = await User.find({_id: {ne: loggedInUserId}}).select('-password')
+  return users
+}
+
+export const updateUser = async (id, imageUrl) => {
+  const user = await User.findByIdAndUpdate(userId, {profilePic: imageUrl}, {new:true})
+  return user
+}
