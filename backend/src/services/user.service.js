@@ -12,3 +12,12 @@ export const createUser = async ({ fullName, email, password }) => {
   await newUser.save()
   return {data: newUser}
 }
+export const loginUser = async ({ email, password }) => {
+
+  const user = await User.findOne({ email })
+  if (!user || !password) return { message: 'Credenciais invalidas' }
+
+  const isValidPassword = await bcrypt.compare(password, user.password)
+  if (!isValidPassword)  return { message: 'Credenciais invalidas' }
+  return {data: user}
+}
