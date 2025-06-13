@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Routes, Route, Navigate} from 'react-router-dom'
+import  {Toaster} from 'react-hot-toast'
 import { LuLoaderCircle } from "react-icons/lu"
 
 import { useAuthStore } from './stores/useAuthStore'
@@ -19,7 +20,7 @@ export default function App() {
     checkAuth()
   }, [checkAuth])
   
-
+console.log(authUser, isCheckingAuth)
   return isCheckingAuth && !authUser 
     ? (
         <div className='flex justify-center items-center h-screen'>
@@ -35,6 +36,7 @@ export default function App() {
             <Route path='/settings' element={<SettingsPage />} />
             <Route path='/profile' element={authUser ? <ProfilePage /> : <Navigate to='/login' />} />
           </Routes>
+          <Toaster />
         </div>
       )
 }

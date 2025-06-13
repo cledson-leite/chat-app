@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { api } from '../libs/axios'
+import toaster from 'react-hot-toast'
 
 export const useAuthStore = create((set) => ({
   authUser: null,
@@ -9,6 +10,7 @@ export const useAuthStore = create((set) => ({
   isCheckingAuth: true,
 
   checkAuth: async () => {
+    set({ isCheckingAuth: true })
     try {
       const res = await api.get('/auth/check')
       set({ authUser: res.data })
@@ -18,5 +20,39 @@ export const useAuthStore = create((set) => ({
     } finally {
       set({ isCheckingAuth: false })
     } 
+  },
+  signup: async (data) => {
+    set({ isSigningUp: true })
+    try {
+      const res = await api.post('/auth/signup', data)
+      set({ authUser: res.data })
+      toaster.success('Cadastro realizado com sucesso')
+    } catch (error) {
+      toaster.error(error?.response?.data ? error.response.data.message : error.message)
+    } finally {
+      set({ isSigningUp: false })
+    }
+  },
+  login: async (data) => {
+    set({ isLoggingIn: true })
+    try {
+      const res = await api.post('/auth/login', data)
+      set({ authUser: res.data })
+      toaster.success('Login realizado com sucesso')
+    } catch (error) {
+      toaster.error(error?.response?.data ? error.response.data.message : error.message)
+    } finally {
+      set({ isLoggingIn: false })
+    }
+  },
+  logout: async () => {
+    try {
+      await api.post('/auth/logout')
+      set({ authUser: null })
+      toaster.success('Logout realizado com sucesso')
+    } catch (error) {
+      console.log(error.message)
+      toaster.error(error?.response?.data ? error.response.data.message : error.message)
+    }
   }
 }))
