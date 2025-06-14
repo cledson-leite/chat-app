@@ -14,12 +14,14 @@ export const signup = async (req, res) => {
     const newUser = await createUser({ fullName, email, password })
     if(newUser.message) return res.status(400).json({ message: newUser.message })
     generateToken(newUser._id, res)
-    return res.status(201).json({ 
-      id: newUser.data._id,
-      fullName: newUser.data.fullName,
-      email: newUser.data.email,
-      profilePic: newUser.data.profilePic
-     })
+    return res.status(201).json({
+      id: user.data._id,
+      fullName: user.data.fullName,
+      email: user.data.email,
+      profilePic: user.data.profilePic,
+      createdAt: user.data.createdAt,
+      updatedAt: user.data.updatedAt
+    })
   } catch (error) {
     console.log('Erro na registro do novo usuario: ', error.message)
     res.status(500).json({ message: 'Internal Server Error' })
@@ -35,7 +37,9 @@ export const login = async (req, res) => {
       id: user.data._id,
       fullName: user.data.fullName,
       email: user.data.email,
-      profilePic: user.data.profilePic
+      profilePic: user.data.profilePic,
+      createdAt: user.data.createdAt,
+      updatedAt: user.data.updatedAt
     })
   } catch (error) {
     console.log('Erro no login do usuario: ', error.message)
@@ -61,7 +65,9 @@ export const checkAuth = (req, res) => {
       id: user._id,
       fullName: user.fullName,
       email: user.email,
-      profilePic: user.profilePic
+      profilePic: user.profilePic,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
     })
   } catch (error) {
     console.log('Erro ao checar controller de rotas: ', error.message)

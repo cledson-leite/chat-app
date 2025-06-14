@@ -1,4 +1,4 @@
-import { findUsers } from "../services/user.service.js"
+import { findUsers, updateUser } from "../services/user.service.js"
 import { uploaderImage } from "../utils/uploader-image.js"
 
 export const getUsersForSidebar = async  (req, res) => {
@@ -14,19 +14,21 @@ export const getUsersForSidebar = async  (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const {profilePic} = req.body
+    console.log(req.user._id)
     const userId = req.user._id
 
-    if(!profilePic) res.status(400).json({message: 'Imagem ivalida'})
+    if(!req.file) res.status(400).json({message: 'Imagem ivalida'})
 
-    const imageUrl = await uploaderImage(profilePic)
+    const imageUrl = await uploaderImage(req.file)
     const updatedUser = await updateUser(userId, imageUrl)
-    
+    console.log(updatedUser)
     res.status(200).json({
       id: updatedUser._id,
       fullName: updatedUser.fullName,
       email: updatedUser.email,
-      profilePic: updatedUser.profilePic
+      profilePic: updatedUser.profilePic,
+      createdAt: updatedUser.createdAt,
+      updatedAt: updatedUser.updatedAt
     })
   } catch (error) {
     console.log('Erro na atualização do usuario: ', error.message)

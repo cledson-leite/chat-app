@@ -20,7 +20,6 @@ export default function App() {
     checkAuth()
   }, [checkAuth])
   
-console.log(authUser, isCheckingAuth)
   return isCheckingAuth && !authUser 
     ? (
         <div className='flex justify-center items-center h-screen'>

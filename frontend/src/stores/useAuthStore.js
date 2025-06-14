@@ -54,5 +54,20 @@ export const useAuthStore = create((set) => ({
       console.log(error.message)
       toaster.error(error?.response?.data ? error.response.data.message : error.message)
     }
+  },
+  updateProfile: async (data) => {
+    set({ isUpdatingProfile: true })
+    try {
+      const res = await api.post('/users/update-profile', data, {
+        headers: {'Content-Type': 'multipart/form-data'}
+      })
+      set({ authUser: res.data })
+      toaster.success('Perfil atualizado com sucesso')
+    } catch (error) {
+      console.log(error.message)
+      toaster.error(error?.response?.data ? error.response.data.message : error.message)
+    } finally {
+      set({ isUpdatingProfile: false })
+    }
   }
 }))

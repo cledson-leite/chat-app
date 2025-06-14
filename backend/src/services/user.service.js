@@ -28,6 +28,6 @@ export const findUsers = async (loggedInUserId) => {
 }
 
 export const updateUser = async (id, imageUrl) => {
-  const user = await User.findByIdAndUpdate(userId, {profilePic: imageUrl}, {new:true})
+  const user = await User.findByIdAndUpdate(id, {profilePic: imageUrl}, {new:true})
   return user
 }

@@ -1,6 +1,13 @@
 import cloudinary from '../lib/cloudinary.js'
 
-export const uploaderImage = async (image) => {
-  const uploadResponse = await cloudinary.uploader.upload(image)
-  return uploadResponse.secure_url
+export const uploaderImage =  (image) => {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload_stream(
+      {resource_type: 'image'},
+      (error, result) => {
+        if(error) reject(error)
+        resolve(result.secure_url)
+      }
+    ).end(image.buffer)
+  })
 }
