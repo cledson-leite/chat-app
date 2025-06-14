@@ -23,7 +23,7 @@ export const loginUser = async ({ email, password }) => {
 }
 
 export const findUsers = async (loggedInUserId) => {
-  const users = await User.find({_id: {ne: loggedInUserId}}).select('-password')
+  const users = await User.find({_id: {$ne: loggedInUserId}}).select('-password')
   return users
 }
 

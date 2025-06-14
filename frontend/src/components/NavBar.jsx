@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { LuMessageSquareDiff } from "react-icons/lu"
-import { MdSettings, MdLogout } from "react-icons/md"
+import { MdLogout } from "react-icons/md"
 import { FaUserAlt } from "react-icons/fa"
 import { useAuthStore } from '../stores/useAuthStore'
 
@@ -19,10 +19,6 @@ export default function NavBar() {
           </Link>
         </div>
         <div className="flex items-center gap-4 pr-5">
-        <Link to="/settings" className="btn btn-sm gap-2 bg-transparent border-none">
-          <MdSettings className="w-4 h-4" />
-          <span className="hidden sm:inline">Configuração</span>
-        </Link>
         {authUser && (
           <>
             <Link to="/profile" className="btn btn-sm gap-2 ">

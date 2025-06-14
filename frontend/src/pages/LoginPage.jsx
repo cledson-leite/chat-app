@@ -112,7 +112,7 @@ export default function LoginPage() {
         </div>
         <AuthImagePattern
           title= 'Bem-vindo de volta'
-          subtitle= 'Conecte-se com amigos e compartilhe suas momentos.'
+          subtitle= 'Faça o login para continuar sua jornada.'
          />
       </div>
   )
