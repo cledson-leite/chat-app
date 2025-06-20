@@ -1,3 +1,6 @@
+import Message from '../models/message.model.js'
+import { uploaderImage } from '../utils/uploader-image.js'
+
 export const createMessage =async  (text, image, receiver, sender) =>  {
   const imageUrl = image ? await uploaderImage(image) : ''
   const newMessage = Message.create({

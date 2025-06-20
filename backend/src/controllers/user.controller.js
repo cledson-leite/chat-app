@@ -14,14 +14,12 @@ export const getUsersForSidebar = async  (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    console.log(req.user._id)
     const userId = req.user._id
 
     if(!req.file) res.status(400).json({message: 'Imagem ivalida'})
 
     const imageUrl = await uploaderImage(req.file)
     const updatedUser = await updateUser(userId, imageUrl)
-    console.log(updatedUser)
     res.status(200).json({
       id: updatedUser._id,
       fullName: updatedUser.fullName,

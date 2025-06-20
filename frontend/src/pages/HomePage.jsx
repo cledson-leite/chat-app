@@ -6,7 +6,6 @@ import ChatContainer from '../components/ChatContainer'
 
 export default function HomePage() {
   const {selectedUser} = useChatStore()
-  console.log(selectedUser)
   return (
     <div className='h-screen bg-base-200'>
       <div className="flex items-center justify-center pt-20 px-4">
