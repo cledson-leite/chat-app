@@ -15,8 +15,8 @@ export const createMessage =async  (text, image, receiverId, senderId) =>  {
 export const findMessages = async (sender, receiver) => {
   const messages = await Message.find({
     $or: [
-      { senderId: mongoose.Types.ObjectId(sender), receiverId: mongoose.Types.ObjectId(receiver) },
-      { senderId: mongoose.Types.ObjectId(receiver), receiverId: mongoose.Types.ObjectId(sender) },
+      { senderId: sender, receiverId: receiver},
+      { senderId: receiver,  receiverId: sender},
     ]
   })
   return messages

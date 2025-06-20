@@ -25,9 +25,8 @@ export const useChatStore = create((set, get) => ({
     set({ isMessageLoading: true })
     try {
       const res = await api.get('/messages/' + userId)
-      set({ messages: res.data })
+      set({ messages: res.data.data })
     } catch (error) {
-      console.log(error.message)
       toaster.error(error?.response?.data ? error.response.data.message : error.message)
     } finally {
       set({ isMessageLoading: false })
