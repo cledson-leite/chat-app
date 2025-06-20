@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {useEffect, useRef} from 'react'
 import { useChatStore } from '../stores/useChatStore'
 import ChatHeader from './ChatHeader'
 import MessageInput from './MessageInput'
@@ -7,11 +7,24 @@ import { useAuthStore } from '../stores/useAuthStore'
 import { formatDate } from '../../utils/format-date'
 
 export default function ChatContainer() {
-  const {getMessages, selectedUser, isMessageLoading, messages} = useChatStore()
+  const { 
+    getMessages, 
+    selectedUser, 
+    isMessageLoading, 
+    messages, 
+    subscribeToMessages, 
+    unsubscribeFromMessages
+  } = useChatStore()
   const {authUser} = useAuthStore()
+  const messageRef = useRef(null)
   useEffect(() => {
     getMessages(selectedUser._id)
-  },[selectedUser._id, getMessages])
+    subscribeToMessages()
+    return () => unsubscribeFromMessages()
+  },[selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages])
+  useEffect(() => {
+    messageRef.current?.scrollIntoView({behavior: 'smooth'})
+  }, [messages])
   if(isMessageLoading) return (
     <div className="flex flex-1 flex-col overflow-auto">
       <ChatHeader />
@@ -26,7 +39,8 @@ export default function ChatContainer() {
         {
           messages.map(message => (
             <div 
-            key={message._id}
+              key={message._id}
+              ref={messageRef}
               className={`chat ${message.senderId === authUser.id ? 'chat-end' : 'chat-start'}`}>
                 <div className="chat-image avatar">
                   <div className="size-10 rounded-full border">

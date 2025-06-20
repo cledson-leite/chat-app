@@ -2,10 +2,11 @@ import {useEffect} from 'react'
 import { FaUserAlt } from "react-icons/fa"
 import { useChatStore } from '../stores/useChatStore'
 import SideBarSkeleton from './skeletons/SideBarSkeleton'
+import { useAuthStore } from '../stores/useAuthStore'
 
 export default function SideBar() {
   const {getUsers, isUserLoading, users, setSelectedUser, selectedUser} = useChatStore()
-  const onlineUsers = []
+  const {onlineUsers} = useAuthStore()
 
   useEffect(() => {
     getUsers()

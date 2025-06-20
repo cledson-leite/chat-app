@@ -1,3 +1,4 @@
+import { getReceiverSocketId, io } from '../lib/socket.js'
 import Message from '../models/message.model.js'
 import { uploaderImage } from '../utils/uploader-image.js'
 
@@ -9,6 +10,9 @@ export const createMessage =async  (text, image, receiverId, senderId) =>  {
     text,
     image: imageUrl
   })
+  const receiverSocketId = getReceiverSocketId(receiverId)
+  if(!receiverSocketId) return
+  io.to(receiverSocketId).emit('newMessage', newMessage)
   return newMessage
 }
 
