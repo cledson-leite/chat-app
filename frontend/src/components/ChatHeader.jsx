@@ -1,5 +1,5 @@
 import React from 'react'
-import { MdCancel } from "react-icons/md";
+import { MdCancel } from "react-icons/md"
 import { useChatStore } from '../stores/useChatStore'
 import { useAuthStore } from '../stores/useAuthStore'
 

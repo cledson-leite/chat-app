@@ -1,24 +1,22 @@
 import Message from '../models/message.model.js'
 import { uploaderImage } from '../utils/uploader-image.js'
 
-export const createMessage =async  (text, image, receiver, sender) =>  {
+export const createMessage =async  (text, image, receiverId, senderId) =>  {
   const imageUrl = image ? await uploaderImage(image) : ''
-  const newMessage = Message.create({
+  const newMessage = await Message.create({
     senderId,
     receiverId,
     text,
     image: imageUrl
   })
-  await newMessage.save()
-
   return newMessage
 }
 
 export const findMessages = async (sender, receiver) => {
   const messages = await Message.find({
     $or: [
-      {senderId: sender, receiverId: receiver},
-      {senderId: receiver, receiverId:  sender},
+      { senderId: mongoose.Types.ObjectId(sender), receiverId: mongoose.Types.ObjectId(receiver) },
+      { senderId: mongoose.Types.ObjectId(receiver), receiverId: mongoose.Types.ObjectId(sender) },
     ]
   })
   return messages

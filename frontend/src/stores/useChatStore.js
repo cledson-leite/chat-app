@@ -36,6 +36,7 @@ export const useChatStore = create((set, get) => ({
   sendMessage: async (data) => {
     const {selectedUser, messages} = get()
     try {
+      
       const res = await api.post(`/messages/send/${selectedUser._id}`, data)
       set({ messages: [...messages, res.data] })
     } catch (error) {

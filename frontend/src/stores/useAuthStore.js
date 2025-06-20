@@ -52,7 +52,6 @@ export const useAuthStore = create((set) => ({
       set({ authUser: null })
       toaster.success('Logout realizado com sucesso')
     } catch (error) {
-      console.log(error.message)
       toaster.error(error?.response?.data ? error.response.data.message : error.message)
     }
   },
@@ -65,7 +64,6 @@ export const useAuthStore = create((set) => ({
       set({ authUser: res.data })
       toaster.success('Perfil atualizado com sucesso')
     } catch (error) {
-      console.log(error.message)
       toaster.error(error?.response?.data ? error.response.data.message : error.message)
     } finally {
       set({ isUpdatingProfile: false })

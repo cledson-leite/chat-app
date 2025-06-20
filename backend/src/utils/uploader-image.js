@@ -1,6 +1,7 @@
 import cloudinary from '../lib/cloudinary.js'
 
 export const uploaderImage =  (image) => {
+  if(!image) return
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload_stream(
       {resource_type: 'image'},
